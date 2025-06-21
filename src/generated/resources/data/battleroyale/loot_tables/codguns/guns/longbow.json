@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"nmw3:longbow\"}"
+              "tag": "{GunId:\"nmw3:longbow\",GunFireMode:\"SEMI\"}"
             }
           ]
         }

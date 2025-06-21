@@ -24,7 +24,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{AmmoId:\"wz:46x30mm\"}"
+              "tag": "{AmmoId:\"wz:46x30mm\",GunFireMode:\"AUTO\"}"
             },
             {
               "function": "minecraft:set_count",

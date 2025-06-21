@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"bo6:hdr\"}"
+              "tag": "{GunId:\"bo6:hdr\",GunFireMode:\"SEMI\"}"
             }
           ]
         }

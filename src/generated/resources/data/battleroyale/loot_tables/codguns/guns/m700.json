@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"tacz:m700\"}"
+              "tag": "{GunId:\"tacz:m700\",GunFireMode:\"SEMI\"}"
             }
           ]
         }
@@ -32,6 +32,33 @@
                 "min": 10,
                 "max": 20
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tacz:attachment",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{AttachmentId:\"tacz:scope_acog_ta31\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tacz:attachment",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{AttachmentId:\"tacz:scope_hamr\"}"
             }
           ]
         }

@@ -24,7 +24,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{AmmoId:\"tacz:12g\"}"
+              "tag": "{AmmoId:\"tacz:12g\",GunFireMode:\"SEMI\"}"
             },
             {
               "function": "minecraft:set_count",

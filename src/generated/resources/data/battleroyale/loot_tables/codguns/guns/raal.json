@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"nmw2:raal\"}"
+              "tag": "{GunId:\"nmw2:raal\",GunFireMode:\"AUTO\"}"
             }
           ]
         }
