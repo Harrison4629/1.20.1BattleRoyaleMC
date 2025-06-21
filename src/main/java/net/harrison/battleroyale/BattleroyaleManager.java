@@ -140,6 +140,7 @@ public class BattleroyaleManager {
             if (player.getTags().contains("prepared")) {
                 player.getTags().remove("prepared");
                 player.getTags().add("inGame");
+                player.getInventory().clearContent();
                 GamingStartFallImmuneEvent.setImmune(player.getUUID());
                 player.teleportTo(platform.x, platform.y, platform.z);
                 player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
