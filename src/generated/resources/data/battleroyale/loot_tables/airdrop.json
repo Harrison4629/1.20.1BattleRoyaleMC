@@ -1,0 +1,65 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:codguns/airdropguns/hdr",
+                    "weight": 1
+                },
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:codguns/airdropguns/minigun",
+                    "weight": 1
+                }
+            ]
+        },{
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:codguns/airdropguns/rpg7",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:air",
+                    "weight": 1
+                }
+            ]
+        },{
+            "rolls": 3,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:skills"
+                }
+            ]
+        },{
+            "rolls": 3,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:armor"
+                }
+            ]
+        },{
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:throwable"
+                }
+            ]
+        },{
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "battleroyale:heal"
+                }
+            ]
+        }
+    ]
+}

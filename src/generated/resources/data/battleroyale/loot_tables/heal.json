@@ -1,0 +1,43 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+            "type": "item",
+            "name": "battleroyaleitem:bandage",
+            "functions": [
+              {
+                "function": "set_count",
+                "count": {
+                  "min": 2,
+                  "max": 3
+                }
+              }
+            ],
+            "weight": 2,
+            "quality": -2
+        },
+        {
+            "type": "item",
+            "name": "battleroyaleitem:medkit",
+            "weight": 1,
+            "quality": 5
+
+        },
+        {
+            "type": "item",
+            "name": "battleroyaleitem:regeneration_syringe",
+            "weight": 1,
+            "quality": 3
+        },
+        {
+            "type": "item",
+            "name": "minecraft:air",
+            "weight": 2,
+            "quality": -2
+        }
+      ]
+    }
+  ]
+}

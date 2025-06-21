@@ -1,0 +1,34 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/ar",
+          "weight": 2
+        },
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/lmg",
+          "weight": 1
+        },
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/sg",
+          "weight": 1
+        },
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/smg",
+          "weight": 2
+        },
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/sr",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

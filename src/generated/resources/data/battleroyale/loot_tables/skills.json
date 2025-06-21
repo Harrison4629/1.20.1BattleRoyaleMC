@@ -1,0 +1,39 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "battleroyaleitem:chameleon",
+                    "weight": 1,
+                    "quality": 1
+                },
+                {
+                    "type": "item",
+                    "name": "battleroyaleitem:phase_core",
+                    "weight": 1,
+                    "quality": 1
+                },
+                {
+                    "type": "item",
+                    "name": "battleroyaleitem:lift_device",
+                    "weight": 1,
+                    "quality": 1
+                },
+                {
+                    "type": "item",
+                    "name": "battleroyaleitem:bio_radar",
+                    "weight": 1,
+                    "quality": 1
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:air",
+                    "weight": 4,
+                    "quality": -4
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/guns/haymaker",
+          "weight": 1
+        },
+        {
+          "type": "loot_table",
+          "name": "battleroyale:codguns/guns/m870",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}
