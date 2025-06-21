@@ -95,7 +95,6 @@ public class FireWorkEvent {
         return explosions;
     }
 
-
     public static void setPlayTimesAndPos(int count, Vec3 pos, Level level) {
         PlayTimes = count;
         Pos = pos.add(0F, 2F, 0F);

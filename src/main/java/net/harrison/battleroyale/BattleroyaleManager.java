@@ -202,7 +202,7 @@ public class BattleroyaleManager {
             ServerPlayer perPlayer = spectatorPlayers.get(i);
             double angle = i * angleStep;
 
-            perPlayer.moveTo(
+            perPlayer.teleportTo(
                     center.x + radius * Math.cos(angle),
                     center.y + 5,
                     center.z + radius * Math.sin(angle)
@@ -250,7 +250,7 @@ public class BattleroyaleManager {
                     player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR) {
                 player.getTags().remove("inGame");
                 GamingStartFallImmuneEvent.resetImmune(player.getUUID());
-                player.moveTo(hobby);
+                player.teleportTo(hobby.x, hobby.y, hobby.z);
 
                 player.setGameMode(GameType.ADVENTURE);
                 player.getInventory().clearContent();
