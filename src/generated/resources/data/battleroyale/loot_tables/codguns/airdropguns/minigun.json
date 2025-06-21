@@ -16,7 +16,7 @@
       ]
     },
     {
-      "rolls": 1,
+      "rolls": 6,
       "entries": [
         {
           "type": "minecraft:item",
@@ -29,26 +29,19 @@
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 200,
-                "max": 220
+                "min": 24,
+                "max": 48
               }
             }
           ]
         }
       ]
     },{
-      "rolls": 1,
+      "rolls": 2,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "tacz:attachment",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{AttachmentId:\"tacz:scope_lpvo_1_6\"}"
-            }
-          ]
+          "type": "loot_table",
+          "name": "battleroyale:codguns/help"
         }
       ]
     }

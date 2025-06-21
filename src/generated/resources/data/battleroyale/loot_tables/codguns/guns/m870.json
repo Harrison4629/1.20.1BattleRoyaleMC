@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"tacz:m870\"}"
+              "tag": "{GunId:\"tacz:m870\",GunFireMode:\"SEMI\"}"
             }
           ]
         }
@@ -24,7 +24,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{AmmoId:\"tacz:12g\",GunFireMode:\"SEMI\"}"
+              "tag": "{AmmoId:\"tacz:12g\"}"
             },
             {
               "function": "minecraft:set_count",

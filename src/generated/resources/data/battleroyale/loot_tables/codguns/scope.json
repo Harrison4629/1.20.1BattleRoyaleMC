@@ -105,17 +105,6 @@
         {
           "type": "minecraft:item",
           "name": "tacz:attachment",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{AttachmentId:\"jak:sight_jak_bullseye\"}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "tacz:attachment",
           "weight": 2,
           "functions": [
             {

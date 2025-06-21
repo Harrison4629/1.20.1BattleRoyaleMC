@@ -9,7 +9,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{GunId:\"nmw2:vel46\"}"
+              "tag": "{GunId:\"nmw2:vel46\",GunFireMode:\"AUTO\"}"
             }
           ]
         }
@@ -24,7 +24,7 @@
           "functions": [
             {
               "function": "minecraft:set_nbt",
-              "tag": "{AmmoId:\"wz:46x30mm\",GunFireMode:\"AUTO\"}"
+              "tag": "{AmmoId:\"wz:46x30mm\"}"
             },
             {
               "function": "minecraft:set_count",

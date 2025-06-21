@@ -99,6 +99,10 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
 
+    implementation fg.deobf("curse.maven:dummmmmmy-225738:6608233")
+    implementation fg.deobf("curse.maven:moonlight-499980:6672774")
+
+
     implementation fg.deobf("curse.maven:tacz-1028108:6654541")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
