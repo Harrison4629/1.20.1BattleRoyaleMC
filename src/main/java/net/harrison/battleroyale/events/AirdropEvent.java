@@ -30,7 +30,6 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Battleroyale.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AirdropEvent {
     private static boolean hasSummoned = false;
-    private static int randomNumber;
 
     @SubscribeEvent
     public static void onZoneStage(ZoneStageEvent event) {
@@ -96,7 +95,7 @@ public class AirdropEvent {
 
         UUID randomUUID = UUID.randomUUID();
         float[] colors = {1.0F, 0.0F, 1.0F};
-        BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), colors, 1.0F, 2.0F, 100);
+        BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), colors, 1.0F, 2.0F, 200);
         BeaconBeamData.DATA.put(randomUUID, beamData);
         net.harrison.beaconbeamdisplay.init.ModMessages.sendToAllPlayer(new BeamPacket(randomUUID, beamData));
 

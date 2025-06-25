@@ -86,7 +86,6 @@ public class BattleroyaleRunningEvent {
 
         if (player.getTags().contains("inGame")) {
             player.getTags().remove("inGame");
-            GamingStartFallImmuneEvent.resetImmune(player.getUUID());
 
             for (int i = 0;i < inventory.items.size(); i++) {
                 ItemStack stack = inventory.items.get(i);
@@ -145,7 +144,7 @@ public class BattleroyaleRunningEvent {
 
         if (player.getTags().contains("inGame")) {
             if (GameBeginClearElytra.getClearElytra(player.getUUID())) {
-                if (player.getY() < BattleroyaleManager.getPlatform().y - 10 && player.onGround()) {
+                if (player.getY() < BattleroyaleManager.getLowestPlatforms().y - 10 && player.onGround()) {
                         player.setItemSlot(EquipmentSlot.CHEST, ItemStack.EMPTY);
                         GameBeginClearElytra.resetClearElytra(player.getUUID());
                 }

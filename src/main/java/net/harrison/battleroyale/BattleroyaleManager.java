@@ -1,8 +1,6 @@
 package net.harrison.battleroyale;
 
-import net.harrison.battleroyale.capabilities.temporary.GameBeginClearElytra;
 import net.harrison.battleroyale.events.FireWorkEvent;
-import net.harrison.battleroyale.events.GamingStartFallImmuneEvent;
 import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlate;
 import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlateProvider;
 import net.harrison.battleroyaleitem.networking.s2cpacket.ArmorPlateSyncS2CPacket;
@@ -19,16 +17,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class BattleroyaleManager {
@@ -36,14 +32,22 @@ public class BattleroyaleManager {
     private static MinecraftServer serverInstance;
 
     private static Vec3 hobby;
-    private static Vec3 platform;
+
+    private static final List<Vec3> platforms = new ArrayList<>();
 
     public static Vec3 getHobby() {
         return hobby;
     }
 
-    public static Vec3 getPlatform() {
-        return platform;
+    public static Vec3 getLowestPlatforms() {
+
+        Vec3 minYPlatform = platforms.get(0);
+        for (Vec3 vec3 : platforms) {
+            if (vec3.y < minYPlatform.y) {
+                minYPlatform = vec3;
+            }
+        }
+        return minYPlatform;
     }
 
     public static void setHobby() {
@@ -69,7 +73,8 @@ public class BattleroyaleManager {
                     String tags = armorStand.getTags().toString();
 
                     if (tags.contains("platform")) {
-                        platform = armorStand.position();
+                        Vec3 position =armorStand.position();
+                        platforms.add(position);
                     }
                 }
             }
@@ -95,12 +100,13 @@ public class BattleroyaleManager {
     }
 
     public static void startBattleRoyale() {
+        Random random = new Random();
 
         setHobby();
         setPlatform();
 
         //***************************************************
-        if (platform == null) {
+        if (platforms.isEmpty()) {
             serverInstance.getPlayerList().broadcastSystemMessage(
                     Component.literal("未找到带有'platform'标签的盔甲架"), false
             );
@@ -141,21 +147,20 @@ public class BattleroyaleManager {
                 player.getTags().remove("prepared");
                 player.getTags().add("inGame");
                 player.getInventory().clearContent();
-                GamingStartFallImmuneEvent.setImmune(player.getUUID());
-                player.teleportTo(platform.x, platform.y, platform.z);
-                player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.ELYTRA));
-                GameBeginClearElytra.setClearElytra(player.getUUID(), true);
+
+                int randomIndex = random.nextInt(platforms.size());
+                Vec3 targetPlatform = platforms.get(randomIndex);
+                player.teleportTo(targetPlatform.x, targetPlatform.y, targetPlatform.z);
+
             }
-
-            serverInstance.getCommands().performPrefixedCommand(
-                    serverInstance.createCommandSourceStack().withSuppressedOutput(),
-                    "function battleroyale:game/start"
-            );
-
-            player.connection.send(new ClientboundSetTitleTextPacket(Component.literal("§6Go! Go! Go!")));
 
             ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(SoundEvents.ANVIL_USE, 1.0F, 1.0F), player);
         }
+
+        serverInstance.getCommands().performPrefixedCommand(
+                serverInstance.createCommandSourceStack().withSuppressedOutput(),
+                "function battleroyale:game/start"
+        );
 
         isBattleRoyaleActive = true;
     }
@@ -250,7 +255,6 @@ public class BattleroyaleManager {
             if (player.getTags().contains("inGame") ||
                     player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR) {
                 player.getTags().remove("inGame");
-                GamingStartFallImmuneEvent.resetImmune(player.getUUID());
                 player.teleportTo(hobby.x, hobby.y, hobby.z);
 
                 player.setGameMode(GameType.ADVENTURE);

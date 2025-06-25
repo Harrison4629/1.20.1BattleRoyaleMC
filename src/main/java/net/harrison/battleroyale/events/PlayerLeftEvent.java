@@ -8,8 +8,6 @@ import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlateProv
 import net.harrison.battleroyaleitem.init.ModMessages;
 import net.harrison.battleroyaleitem.networking.s2cpacket.ArmorPlateSyncS2CPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,7 +32,6 @@ public class PlayerLeftEvent {
         }
 
         player.getTags().remove("inGame");
-        GamingStartFallImmuneEvent.resetImmune(player.getUUID());
         player.getInventory().clearContent();
 
         LazyOptional<NumofArmorPlate> armorCapability = player.getCapability(

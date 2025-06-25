@@ -6,4 +6,3 @@ execute at @e[type=minecraft:armor_stand,tag=res] run data modify block ~ ~ ~ Lo
 execute at @e[type=minecraft:armor_stand,tag=res] run setblock ~ ~ ~ minecraft:chest replace
 execute at @e[type=minecraft:armor_stand,tag=res] run data modify block ~ ~ ~ LootTable set value "battleroyale:chests"
 
-#
