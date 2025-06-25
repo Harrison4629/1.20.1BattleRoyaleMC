@@ -6,6 +6,8 @@ import net.harrison.battleroyaleitem.init.ModEntities;
 import net.harrison.battleroyalezone.config.ZoneConfig;
 import net.harrison.battleroyalezone.events.customEvents.ZoneStageEvent;
 import net.harrison.battleroyalezone.events.customEvents.ZoneStateEnum;
+import net.harrison.beaconbeamdisplay.manager.BeaconBeamData;
+import net.harrison.beaconbeamdisplay.networking.s2cpacket.BeamPacket;
 import net.harrison.soundmanager.init.ModMessages;
 import net.harrison.soundmanager.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.minecraft.network.chat.Component;
@@ -21,11 +23,14 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 
 @Mod.EventBusSubscriber(modid = Battleroyale.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AirdropEvent {
     private static boolean hasSummoned = false;
+    private static int randomNumber;
 
     @SubscribeEvent
     public static void onZoneStage(ZoneStageEvent event) {
@@ -39,7 +44,7 @@ public class AirdropEvent {
 
         if (!event.getRunningState()){
             if (level != null) {
-                clearAirdrop(event, level);
+                clearAirdrop(level);
             }
             return;
         }
@@ -78,7 +83,6 @@ public class AirdropEvent {
             return;
         }
 
-
         AirdropEntity airdrop = new AirdropEntity(ModEntities.AIRDROP.get(), level);
         ResourceLocation lootTableId = ResourceLocation.fromNamespaceAndPath("battleroyale", "airdrop");
         airdrop.setLootTable(lootTableId, level.getRandom().nextLong());
@@ -88,8 +92,14 @@ public class AirdropEvent {
         double x = center.x + (level.getRandom().nextDouble() - 0.5) * maxOffset;
         double z = center.z + (level.getRandom().nextDouble() - 0.5) * maxOffset;
 
-
         airdrop.setPos(x, center.y + 80, z);
+
+        UUID randomUUID = UUID.randomUUID();
+        float[] colors = {1.0F, 0.0F, 1.0F};
+        BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), colors, 1.0F, 2.0F, 100);
+        BeaconBeamData.DATA.put(randomUUID, beamData);
+        net.harrison.beaconbeamdisplay.init.ModMessages.sendToAllPlayer(new BeamPacket(randomUUID, beamData));
+
         level.addFreshEntity(airdrop);
 
         event.getServer().getPlayerList().broadcastSystemMessage(
@@ -104,7 +114,7 @@ public class AirdropEvent {
         hasSummoned = true;
     }
 
-    private static void clearAirdrop(ZoneStageEvent event, ServerLevel level) {
+    private static void clearAirdrop(ServerLevel level) {
         List<Entity> airdropToClear = new ArrayList<>(level.getEntities(ModEntities.AIRDROP.get(),
                 airdropEntity -> true
         ));

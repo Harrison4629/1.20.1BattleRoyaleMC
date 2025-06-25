@@ -45,7 +45,7 @@ public class PlayerLeftEvent {
             ModMessages.sendToPlayer(new ArmorPlateSyncS2CPacket(numofArmorPlate.getNumofArmorPlate()), player);
         });
 
-        player.setItemSlot(EquipmentSlot.CHEST, ItemStack.EMPTY);
+        player.getInventory().clearContent();
         GameBeginClearElytra.resetClearElytra(player.getUUID());
     }
 }
