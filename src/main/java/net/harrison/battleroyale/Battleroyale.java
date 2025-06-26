@@ -1,6 +1,6 @@
 package net.harrison.battleroyale;
 
-import net.harrison.battleroyale.events.DelayLoadHobbyEvent;
+import net.harrison.basicdevtool.util.DelayTask;
 import net.harrison.battleroyale.init.ModCommands;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,7 +44,7 @@ public class Battleroyale {
 
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
-        DelayLoadHobbyEvent.setDelayTicks(100);
+        DelayTask.schedule(BattleroyaleManager::setHobby, 100);
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
