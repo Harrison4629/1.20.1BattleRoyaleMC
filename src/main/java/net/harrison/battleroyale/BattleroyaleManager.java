@@ -39,16 +39,6 @@ public class BattleroyaleManager {
         return hobby;
     }
 
-    public static Vec3 getLowestPlatforms() {
-
-        Vec3 minYPlatform = platforms.get(0);
-        for (Vec3 vec3 : platforms) {
-            if (vec3.y < minYPlatform.y) {
-                minYPlatform = vec3;
-            }
-        }
-        return minYPlatform;
-    }
 
     public static void setHobby() {
         ServerLevel level = serverInstance.getLevel(ServerLevel.OVERWORLD);
@@ -102,7 +92,6 @@ public class BattleroyaleManager {
     public static void startBattleRoyale() {
         Random random = new Random();
 
-        setHobby();
         setPlatform();
 
         //***************************************************
