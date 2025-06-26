@@ -12,3 +12,5 @@ gamerule doFireTick false
 worldborder damage buffer 0
 #每出圈1格，每秒多扣0.1血
 worldborder damage amount 0.1
+#禁止生物生成
+gamerule doMobSpawning false

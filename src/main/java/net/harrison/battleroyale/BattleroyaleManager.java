@@ -16,6 +16,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.GameType;
@@ -148,13 +150,19 @@ public class BattleroyaleManager {
                 player.getTags().add("inGame");
                 player.getInventory().clearContent();
 
+
                 int randomIndex = random.nextInt(platforms.size());
                 Vec3 targetPlatform = platforms.get(randomIndex);
                 player.teleportTo(targetPlatform.x, targetPlatform.y, targetPlatform.z);
 
+                ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(SoundEvents.ANVIL_USE, 1.0F, 1.0F), player);
+            } else {
+                player.setGameMode(GameType.SPECTATOR);
+
+                player.connection.send(new ClientboundSetTitleTextPacket(Component.literal("§b您正在观战一场游戏")));
+
             }
 
-            ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(SoundEvents.ANVIL_USE, 1.0F, 1.0F), player);
         }
 
         serverInstance.getCommands().performPrefixedCommand(

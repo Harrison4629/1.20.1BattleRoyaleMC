@@ -2,7 +2,7 @@
 
 execute as @a[tag=inGame] run attribute @s forge:nametag_distance base set 0
 item replace entity @a[tag=inGame] armor.chest with vc_gliders:paraglider_wood{Unbreakable:1,Enchantments:[{}]}
-
+effect give @a[tag=inGame] minecraft:invisibility 20 0 true
 
 title @a actionbar {"text":"Go Go Go !!!","color":"yellow","bold":true}
 tellraw @a[tag=inGame] {"text":"空中按下空格以打开降落伞","color":"yellow"}
