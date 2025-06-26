@@ -2,7 +2,6 @@ package net.harrison.battleroyale.events;
 
 import net.harrison.battleroyale.Battleroyale;
 import net.harrison.battleroyale.BattleroyaleManager;
-import net.harrison.battleroyale.capabilities.temporary.GameBeginClearElytra;
 import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlate;
 import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlateProvider;
 import net.harrison.battleroyaleitem.init.ModMessages;
@@ -43,6 +42,5 @@ public class PlayerLeftEvent {
         });
 
         player.getInventory().clearContent();
-        GameBeginClearElytra.resetClearElytra(player.getUUID());
     }
 }

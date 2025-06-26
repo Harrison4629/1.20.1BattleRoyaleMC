@@ -1,15 +1,13 @@
 package net.harrison.battleroyale.events;
 
+import net.harrison.basicdevtool.init.ModMessages;
+import net.harrison.basicdevtool.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.harrison.battleroyale.Battleroyale;
 import net.harrison.battleroyale.BattleroyaleManager;
-import net.harrison.battleroyale.capabilities.temporary.GameBeginClearElytra;
-import net.harrison.soundmanager.init.ModMessages;
-import net.harrison.soundmanager.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -128,29 +126,6 @@ public class BattleroyaleRunningEvent {
         }
     }
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END || event.side.isClient()) {
-            return;
-        }
-
-        if (!BattleroyaleManager.getStatus()) {
-            return;
-        }
-
-        if (!(event.player instanceof ServerPlayer player)) {
-            return;
-        }
-
-        if (player.getTags().contains("inGame")) {
-            if (GameBeginClearElytra.getClearElytra(player.getUUID())) {
-                if (player.getY() < BattleroyaleManager.getLowestPlatforms().y - 10 && player.onGround()) {
-                        player.setItemSlot(EquipmentSlot.CHEST, ItemStack.EMPTY);
-                        GameBeginClearElytra.resetClearElytra(player.getUUID());
-                }
-            }
-        }
-    }
 
     private record ItemStackInSlot(ItemStack stack, int slot, InventorySection section) {
     }

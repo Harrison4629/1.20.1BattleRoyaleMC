@@ -1,9 +1,9 @@
 package net.harrison.battleroyale.events;
 
+import net.harrison.basicdevtool.init.ModMessages;
+import net.harrison.basicdevtool.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.harrison.battleroyale.Battleroyale;
 import net.harrison.battleroyale.BattleroyaleManager;
-import net.harrison.soundmanager.init.ModMessages;
-import net.harrison.soundmanager.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.level.ServerPlayer;

@@ -111,7 +111,7 @@ dependencies {
 
     implementation fg.deobf("net.harrison:battleroyalezone:1.0.0")
     implementation fg.deobf("net.harrison:battleroyaleitem:1.0.0")
-    implementation fg.deobf("net.harrison:soundmanager:1.0.0")
+    implementation fg.deobf("net.harrison:basicdevtool:1.0.0")
     implementation fg.deobf("net.harrison:beaconbeamdisplay:1.0.0")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
