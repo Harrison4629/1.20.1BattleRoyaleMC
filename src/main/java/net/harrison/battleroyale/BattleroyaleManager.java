@@ -3,9 +3,7 @@ package net.harrison.battleroyale;
 import net.harrison.basicdevtool.init.ModMessages;
 import net.harrison.basicdevtool.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.harrison.battleroyale.events.FireWorkEvent;
-import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlate;
-import net.harrison.battleroyaleitem.capabilities.armorplate.NumofArmorPlateProvider;
-import net.harrison.battleroyaleitem.networking.s2cpacket.ArmorPlateSyncS2CPacket;
+import net.harrison.battleroyale.util.ResetStatus;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -20,7 +18,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,8 +132,8 @@ public class BattleroyaleManager {
             if (player.getTags().contains("prepared")) {
                 player.getTags().remove("prepared");
                 player.getTags().add("inGame");
-                player.getInventory().clearContent();
 
+                ResetStatus.ResetPlayerStatus(player);
 
                 int randomIndex = random.nextInt(platforms.size());
                 Vec3 targetPlatform = platforms.get(randomIndex);
@@ -244,24 +241,11 @@ public class BattleroyaleManager {
 
 
         for (ServerPlayer player : serverInstance.getPlayerList().getPlayers()) {
-            LazyOptional<NumofArmorPlate> armorCapability = player.getCapability(
-                    NumofArmorPlateProvider.NUMOF_ARMOR_PLATE_CAPABILITY);
-
             if (player.getTags().contains("inGame") ||
                     player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR) {
                 player.getTags().remove("inGame");
                 player.teleportTo(hobby.x, hobby.y, hobby.z);
-
-                player.setGameMode(GameType.ADVENTURE);
-                player.getInventory().clearContent();
-                player.setHealth(player.getMaxHealth());
-                player.removeAllEffects();
-
-                armorCapability.ifPresent(numofArmorPlate -> {
-                    numofArmorPlate.subAllArmorPlate();
-                    net.harrison.battleroyaleitem.init
-                            .ModMessages.sendToPlayer(new ArmorPlateSyncS2CPacket(numofArmorPlate.getNumofArmorPlate()), player);
-                });
+                ResetStatus.ResetPlayerStatus(player);
             }
         }
     }

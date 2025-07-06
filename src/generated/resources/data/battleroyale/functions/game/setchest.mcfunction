@@ -1,1 +1,0 @@
-execute at @e[type=minecraft:armor_stand,tag=res] run setblock ~ ~ ~ minecraft:chest replace
