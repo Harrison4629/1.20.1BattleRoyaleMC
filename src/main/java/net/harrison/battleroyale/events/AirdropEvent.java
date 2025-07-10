@@ -29,6 +29,9 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = Battleroyale.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AirdropEvent {
     private static boolean hasSummoned = false;
+    private static final int AirdropHeight = 80;
+    private static final float[] BeaconBeamColor = {1.0F, 0.0F, 1.0F};
+    private static final int[] ExcludedStage = {0, ZoneConfig.getMaxStage() - 2, ZoneConfig.getMaxStage() - 1};
 
     @SubscribeEvent
     public static void onZoneStage(ZoneStageEvent event) {
@@ -47,20 +50,12 @@ public class AirdropEvent {
             return;
         }
 
-
-        if(event.getStage() >= ZoneConfig.getMaxStage() - 1 - 2) {
-            return;
-        }
-
         ZoneStateEnum state = event.getState();
-        Vec3 center = event.getZoneCenter();
-
-
 
         switch (state) {
 
             case IDLE:
-                summonAirdrop(center, level, event);
+                summonAirdrop(event);
                 break;
 
             case WARNING:
@@ -76,25 +71,32 @@ public class AirdropEvent {
 
     }
 
-    private static void summonAirdrop(Vec3 center, ServerLevel level, ZoneStageEvent event) {
+    private static void summonAirdrop(ZoneStageEvent event) {
+        ServerLevel level = event.getServer().overworld();
+
         if (hasSummoned) {
             return;
+        }
+
+        for (int excludedStage : ExcludedStage) {
+            if (event.getStage() == excludedStage) {
+                return;
+            }
         }
 
         AirdropEntity airdrop = new AirdropEntity(ModEntities.AIRDROP.get(), level);
         ResourceLocation lootTableId = ResourceLocation.fromNamespaceAndPath("battleroyale", "airdrop");
         airdrop.setLootTable(lootTableId, level.getRandom().nextLong());
+        airdrop.addTag("gameAirdrop");
 
-        double maxOffset = ZoneConfig.getZoneSize(event.getStage()) / 2.0 * 0.9;
+        double maxOffset = ZoneConfig.getZoneSize(event.getStage()) * 0.9;
+        double x = event.getOffsetCenter().x + (level.getRandom().nextDouble() - 0.5) * maxOffset;
+        double z = event.getOffsetCenter().z + (level.getRandom().nextDouble() - 0.5) * maxOffset;
 
-        double x = center.x + (level.getRandom().nextDouble() - 0.5) * maxOffset;
-        double z = center.z + (level.getRandom().nextDouble() - 0.5) * maxOffset;
-
-        airdrop.setPos(x, center.y + 80, z);
+        airdrop.setPos(x, event.getOffsetCenter().y + AirdropHeight, z);
 
         UUID randomUUID = UUID.randomUUID();
-        float[] colors = {1.0F, 0.0F, 1.0F};
-        BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), colors, 1.0F, 2.0F, 200);
+        BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), BeaconBeamColor, 1.0F, 2.0F, 200);
         BeaconBeamData.DATA.put(randomUUID, beamData);
         net.harrison.beaconbeamdisplay.init.ModMessages.sendToAllPlayer(new BeamPacket(randomUUID, beamData));
 
@@ -118,7 +120,9 @@ public class AirdropEvent {
         ));
 
         for (Entity airdrop : airdropToClear) {
-            airdrop.remove(Entity.RemovalReason.DISCARDED);
+            if (airdrop.getTags().toString().contains("gameAirdrop")) {
+                airdrop.remove(Entity.RemovalReason.DISCARDED);
+            }
         }
     }
 }
