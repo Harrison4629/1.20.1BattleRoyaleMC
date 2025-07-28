@@ -2,6 +2,7 @@ package net.harrison.battleroyale.init;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.harrison.battleroyale.BattleroyaleManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,11 @@ public class ModCommands {
 
                 .then(Commands.literal("getStatus")
                         .executes(context -> {
-                            context.getSource().sendSuccess(() ->Component.literal(BattleroyaleManager.getStatus() ? "§6运行中" : "§b空闲状态"), true);
+                            if (BattleroyaleManager.getStatus()) {
+                                context.getSource().sendSuccess(() ->Component.translatable("manager.battleroyale.running").withStyle(ChatFormatting.GOLD), true);
+                            } else {
+                                context.getSource().sendSuccess(() -> Component.translatable("manager.battleroyale.idle").withStyle(ChatFormatting.AQUA), true);
+                            }
                             return 1;
                         })
                 )

@@ -5,11 +5,12 @@ import net.harrison.basicdevtool.networking.s2cpacket.PlaySoundToClientS2CPacket
 import net.harrison.battleroyale.Battleroyale;
 import net.harrison.battleroyaleitem.entities.airdrop.AirdropEntity;
 import net.harrison.battleroyaleitem.init.ModEntities;
-import net.harrison.battleroyalezone.config.ZoneConfig;
+import net.harrison.battleroyalezone.data.ZoneData;
 import net.harrison.battleroyalezone.events.customEvents.ZoneStageEvent;
 import net.harrison.battleroyalezone.events.customEvents.ZoneStateEnum;
 import net.harrison.beaconbeamdisplay.manager.BeaconBeamData;
 import net.harrison.beaconbeamdisplay.networking.s2cpacket.BeamPacket;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -31,10 +32,13 @@ public class AirdropEvent {
     private static boolean hasSummoned = false;
     private static final int AirdropHeight = 80;
     private static final float[] BeaconBeamColor = {1.0F, 0.0F, 1.0F};
-    private static final int[] ExcludedStage = {0, ZoneConfig.getMaxStage() - 2, ZoneConfig.getMaxStage() - 1};
+    private static final int[] ExcludedStage = {0, ZoneData.getMaxStage() - 2, ZoneData.getMaxStage() - 1, ZoneData.getMaxStage()};
+    private static final String airdropTag = "gameAirdrop";
 
     @SubscribeEvent
     public static void onZoneStage(ZoneStageEvent event) {
+
+
 
         if (event.getServer() == null) {
             return;
@@ -87,13 +91,13 @@ public class AirdropEvent {
         AirdropEntity airdrop = new AirdropEntity(ModEntities.AIRDROP.get(), level);
         ResourceLocation lootTableId = ResourceLocation.fromNamespaceAndPath("battleroyale", "airdrop");
         airdrop.setLootTable(lootTableId, level.getRandom().nextLong());
-        airdrop.addTag("gameAirdrop");
+        airdrop.addTag(airdropTag);
 
-        double maxOffset = ZoneConfig.getZoneSize(event.getStage()) * 0.9;
-        double x = event.getOffsetCenter().x + (level.getRandom().nextDouble() - 0.5) * maxOffset;
-        double z = event.getOffsetCenter().z + (level.getRandom().nextDouble() - 0.5) * maxOffset;
+        double maxOffset = ZoneData.getZoneSize(event.getStage()) * 0.9;
+        double x = event.getNextZoneCenter().x + (level.getRandom().nextDouble() - 0.5) * maxOffset;
+        double z = event.getNextZoneCenter().z + (level.getRandom().nextDouble() - 0.5) * maxOffset;
 
-        airdrop.setPos(x, event.getOffsetCenter().y + AirdropHeight, z);
+        airdrop.setPos(x, event.getNextZoneCenter().y + AirdropHeight, z);
 
         UUID randomUUID = UUID.randomUUID();
         BeaconBeamData beamData = new BeaconBeamData(new Vec3(x, 0, z), BeaconBeamColor, 1.0F, 2.0F, 200);
@@ -103,7 +107,7 @@ public class AirdropEvent {
         level.addFreshEntity(airdrop);
 
         event.getServer().getPlayerList().broadcastSystemMessage(
-                Component.literal(String.format("§e§l空投已降落在 x:%.1f z:%.1f 附近！", x, z)),
+                Component.translatable("airdrop.battleroyale.landed").withStyle(ChatFormatting.YELLOW).append(String.format("§l x:%.1f z:%.1f !", x, z)),
                 false
         );
 
@@ -120,7 +124,7 @@ public class AirdropEvent {
         ));
 
         for (Entity airdrop : airdropToClear) {
-            if (airdrop.getTags().toString().contains("gameAirdrop")) {
+            if (airdrop.getTags().toString().contains(airdropTag)) {
                 airdrop.remove(Entity.RemovalReason.DISCARDED);
             }
         }

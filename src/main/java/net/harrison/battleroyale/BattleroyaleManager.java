@@ -42,9 +42,13 @@ public class BattleroyaleManager {
         if (level != null) {
             for (Entity entity : level.getAllEntities()){
                 if (entity instanceof ArmorStand armorStand) {
-                    String tags = armorStand.getTags().toString();
+                    //String tags = armorStand.getTags().toString();
 
-                    if (tags.contains("hobby")) {
+                    //if (tags.contains("hobby")) {
+                    //    hobby = armorStand.position();
+                    //}
+
+                    if (armorStand.getTags().contains("hobby")) {
                         hobby = armorStand.position();
                     }
                 }
@@ -57,10 +61,14 @@ public class BattleroyaleManager {
         if (level != null) {
             for (Entity entity : level.getAllEntities()){
                 if (entity instanceof ArmorStand armorStand) {
-                    String tags = armorStand.getTags().toString();
+                    //String tags = armorStand.getTags().toString();
 
-                    if (tags.contains("platform")) {
-                        Vec3 position =armorStand.position();
+                    //if (tags.contains("platform")) {
+                    //    Vec3 position =armorStand.position();
+                    //    platforms.add(position);
+                    //}
+                    if (armorStand.getTags().contains("platform")) {
+                        Vec3 position = armorStand.position();
                         platforms.add(position);
                     }
                 }
@@ -91,24 +99,23 @@ public class BattleroyaleManager {
 
         setPlatform();
 
-        //***************************************************
         if (platforms.isEmpty()) {
             serverInstance.getPlayerList().broadcastSystemMessage(
-                    Component.literal("未找到带有'platform'标签的盔甲架"), false
+                    Component.translatable("message.battleroyale.armor_stand_platform_not_found"), false
             );
             return;
         }
         if (hobby == null) {
             serverInstance.getPlayerList().broadcastSystemMessage(
-                    Component.literal("未找到带有'hobby'标签的盔甲架"), false
+                    Component.translatable("message.battleroyale.armor_stand_hobby_not_found"), false
             );
             return;
         }
-        //***************************************************
+
 
         if (isBattleRoyaleActive) {
             serverInstance.getPlayerList().broadcastSystemMessage(
-                    Component.literal("大逃杀正在运行中！请等待其结束"), false
+                    Component.translatable("message.battleroyale.game_running"), false
             );
             for (ServerPlayer player : serverInstance.getPlayerList().getPlayers()) {
                 ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(
@@ -119,7 +126,7 @@ public class BattleroyaleManager {
 
         if (!EnoughPreparedPlayer()){
             serverInstance.getPlayerList().broadcastSystemMessage(
-                    Component.literal("玩家数量不足！"), false);
+                    Component.translatable("message.battleroyale.not_enough_player_number").withStyle(ChatFormatting.RED), false);
             for (ServerPlayer player : serverInstance.getPlayerList().getPlayers()) {
                 ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(
                         SoundEvents.VILLAGER_NO, 1.0F, 1.0F), player);
@@ -143,7 +150,7 @@ public class BattleroyaleManager {
             } else {
                 player.setGameMode(GameType.SPECTATOR);
 
-                player.connection.send(new ClientboundSetTitleTextPacket(Component.literal("§b您正在观战一场游戏")));
+                player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable("message.battleroyale.player_spectator")));
 
             }
 

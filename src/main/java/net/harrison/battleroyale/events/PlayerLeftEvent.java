@@ -18,14 +18,8 @@ public class PlayerLeftEvent {
             return;
         }
 
-        if (!BattleroyaleManager.getStatus()){
-            return;
-        }
 
-        if (!player.getTags().contains("inGame")) {
-            return;
-        }
-
+        player.kill();
         player.getTags().remove("inGame");
         ResetStatus.ResetPlayerStatus(player);
     }

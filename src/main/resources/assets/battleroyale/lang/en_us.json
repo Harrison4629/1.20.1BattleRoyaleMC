@@ -1,0 +1,11 @@
+{
+  "airdrop.battleroyale.landed": "",
+  "message.battleroyale.player_dead": "",
+  "message.battleroyale.player_spectator": "",
+  "message.battleroyale.armor_stand_platform_not_found": "",
+  "message.battleroyale.armor_stand_hobby_not_found": "",
+  "message.battleroyale.game_running": "",
+  "message.battleroyale.not_enough_player_number": "",
+  "manager.battleroyale.running": "",
+  "manager.battleroyale.idle": ""
+}

@@ -4,6 +4,7 @@ import net.harrison.basicdevtool.init.ModMessages;
 import net.harrison.basicdevtool.networking.s2cpacket.PlaySoundToClientS2CPacket;
 import net.harrison.battleroyale.Battleroyale;
 import net.harrison.battleroyale.BattleroyaleManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,14 +24,14 @@ import java.util.List;
 
 
 @Mod.EventBusSubscriber(modid = Battleroyale.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class BattleroyaleRunningEvent {
+public class BattleRoyaleRunningEvent {
     private static boolean endCelebration = false;
 
     private static int delay = 0;
     private final static int delayTime = 160;
 
     @SubscribeEvent
-    public static void onBattleroyaleRunning(TickEvent.ServerTickEvent event) {
+    public static void onBattleRoyaleRunning(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END || event.side.isClient()) {
             return;
         }
@@ -120,7 +121,7 @@ public class BattleroyaleRunningEvent {
 
             player.setGameMode(GameType.SPECTATOR);
 
-            player.connection.send(new ClientboundSetTitleTextPacket(Component.literal("§e您已阵亡，仍可继续观战")));
+            player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable("message.battleroyale.player_dead").withStyle(ChatFormatting.YELLOW)));
 
             ModMessages.sendToPlayer(new PlaySoundToClientS2CPacket(SoundEvents.VILLAGER_DEATH, 1.0F, 1.0F), player);
         }
