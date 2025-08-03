@@ -2,6 +2,7 @@ package net.harrison.battleroyale;
 
 import net.harrison.basicdevtool.util.DelayTask;
 import net.harrison.battleroyale.init.ModCommands;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -19,6 +20,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class Battleroyale {
 
     public static final String MODID = "battleroyale";
+
+    public static ResourceLocation lootChestLootTable = ResourceLocation.parse("battleroyale:chests");
+
     public Battleroyale() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -45,6 +49,7 @@ public class Battleroyale {
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
         DelayTask.schedule(BattleroyaleManager::setHobby, 100);
+        DelayTask.schedule(BattleroyaleManager::setPlatform, 100);
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

@@ -32,41 +32,25 @@ public class BattleroyaleManager {
 
     private static final List<Vec3> platforms = new ArrayList<>();
 
-    public static Vec3 getHobby() {
-        return hobby;
-    }
-
-
-    public static void setHobby() {
+    public static boolean setHobby() {
         ServerLevel level = serverInstance.getLevel(ServerLevel.OVERWORLD);
         if (level != null) {
             for (Entity entity : level.getAllEntities()){
                 if (entity instanceof ArmorStand armorStand) {
-                    //String tags = armorStand.getTags().toString();
-
-                    //if (tags.contains("hobby")) {
-                    //    hobby = armorStand.position();
-                    //}
-
                     if (armorStand.getTags().contains("hobby")) {
                         hobby = armorStand.position();
                     }
                 }
             }
         }
+        return hobby == null;
     }
 
-    private static void setPlatform() {
+    public static boolean setPlatform() {
         ServerLevel level = serverInstance.getLevel(ServerLevel.OVERWORLD);
         if (level != null) {
             for (Entity entity : level.getAllEntities()){
                 if (entity instanceof ArmorStand armorStand) {
-                    //String tags = armorStand.getTags().toString();
-
-                    //if (tags.contains("platform")) {
-                    //    Vec3 position =armorStand.position();
-                    //    platforms.add(position);
-                    //}
                     if (armorStand.getTags().contains("platform")) {
                         Vec3 position = armorStand.position();
                         platforms.add(position);
@@ -74,15 +58,9 @@ public class BattleroyaleManager {
                 }
             }
         }
+        return platforms.isEmpty();
     }
 
-    public static void getServer(MinecraftServer server){
-        serverInstance = server;
-    }
-
-    public static boolean getStatus() {
-        return isBattleRoyaleActive;
-    }
 
     private static boolean EnoughPreparedPlayer() {
         int playerCount = 0;
@@ -96,8 +74,6 @@ public class BattleroyaleManager {
 
     public static void startBattleRoyale() {
         Random random = new Random();
-
-        setPlatform();
 
         if (platforms.isEmpty()) {
             serverInstance.getPlayerList().broadcastSystemMessage(
@@ -255,5 +231,17 @@ public class BattleroyaleManager {
                 ResetStatus.ResetPlayerStatus(player);
             }
         }
+    }
+
+    public static void getServer(MinecraftServer server){
+        serverInstance = server;
+    }
+
+    public static boolean getStatus() {
+        return isBattleRoyaleActive;
+    }
+
+    public static Vec3 getHobby() {
+        return hobby;
     }
 }
