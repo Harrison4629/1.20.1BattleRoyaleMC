@@ -5,7 +5,7 @@ import net.harrison.battleroyaleitem.capabilities.armorplate.ArmorPlateProvider;
 import net.harrison.battleroyaleitem.capabilities.phasecore.PhaseCore;
 import net.harrison.battleroyaleitem.capabilities.phasecore.PhaseCoreProvider;
 import net.harrison.battleroyaleitem.init.ModMessages;
-import net.harrison.battleroyaleitem.networking.s2cpacket.ArmorPlateSyncS2CPacket;
+import net.harrison.battleroyaleitem.networking.s2cpacket.ArmorPlateBarSyncS2CPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;
 import net.minecraftforge.common.util.LazyOptional;
@@ -22,7 +22,7 @@ public class ResetStatus {
 
         armorCapability.ifPresent(armorPlate -> {
             armorPlate.subAllArmorPlate();
-            ModMessages.sendToPlayer(new ArmorPlateSyncS2CPacket(armorPlate.getNumOfArmorPlate()), player);
+            ModMessages.sendToPlayer(new ArmorPlateBarSyncS2CPacket(armorPlate.getNumOfArmorPlate(), armorPlate.getHP()), player);
         });
 
         phaseCoreCapability.ifPresent(PhaseCore::reset);

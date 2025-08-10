@@ -35,10 +35,6 @@ public class AirdropEvent {
     @SubscribeEvent
     public static void onZoneStage(ZoneStageEvent event) {
 
-        if (event.getServer() == null) {
-            return;
-        }
-
         ServerLevel level = (ServerLevel) event.getLevel();
 
         if (!event.getRunningState()){
@@ -63,7 +59,6 @@ public class AirdropEvent {
 
         AirdropEntity airdrop = new AirdropEntity(ModEntities.AIRDROP.get(), level);
         ResourceLocation lootTableId = ResourceLocation.fromNamespaceAndPath(Battleroyale.MODID, "airdrop");
-        //airdrop.setLootTable(lootTableId, level.getRandom().nextLong());
         airdrop.setLootTable(lootTableId, 0);
         airdrop.addTag(AIRDROP_TAG);
 
@@ -80,7 +75,7 @@ public class AirdropEvent {
 
         level.addFreshEntity(airdrop);
 
-        event.getServer().getPlayerList().broadcastSystemMessage(
+        Objects.requireNonNull(event.getLevel().getServer()).getPlayerList().broadcastSystemMessage(
                 Component.translatable("airdrop.battleroyale.landed").withStyle(ChatFormatting.YELLOW).append(String.format("§l x:%.1f z:%.1f !", x, z)),
                 false
         );

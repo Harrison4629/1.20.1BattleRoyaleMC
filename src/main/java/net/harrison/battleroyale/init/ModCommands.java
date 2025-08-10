@@ -2,8 +2,11 @@ package net.harrison.battleroyale.init;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.harrison.battleroyale.Battleroyale;
-import net.harrison.battleroyale.BattleroyaleManager;
-import net.harrison.battleroyale.data.LootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.CommonLootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.EpicLootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.LootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.RareLootChestBlockPosData;
+import net.harrison.battleroyale.events.GamingEvent;
 import net.harrison.battleroyaleitem.block.LootChestBlock;
 import net.harrison.battleroyaleitem.block.LootChestBlockEntity;
 import net.minecraft.ChatFormatting;
@@ -24,14 +27,16 @@ public class ModCommands {
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("start")
                         .executes(context -> {
-                            BattleroyaleManager.startBattleRoyale();
+
+                            GamingEvent.startOneGame(context.getSource().getLevel());
+
                             return 1;
                         })
                 )
 
                 .then(Commands.literal("getStatus")
                         .executes(context -> {
-                            if (BattleroyaleManager.getStatus()) {
+                            if (GamingEvent.getBattleroyaleManager(context.getSource().getLevel()) != null) {
                                 context.getSource().sendSuccess(() ->Component.translatable("manager.battleroyale.running").withStyle(ChatFormatting.GOLD), true);
                             } else {
                                 context.getSource().sendSuccess(() -> Component.translatable("manager.battleroyale.idle").withStyle(ChatFormatting.AQUA), true);
@@ -47,11 +52,15 @@ public class ModCommands {
 
                                     ServerLevel level = context.getSource().getLevel();
 
-                                    List<BlockPos> locations = LootChestBlockPosData.get(level).getLocations();
+                                    List<BlockPos> loot_chest_locations = LootChestBlockPosData.get(level).getLocations();
+                                    List<BlockPos> common_loot_chest_locations = CommonLootChestBlockPosData.get(level).getLocations();
+                                    List<BlockPos> rare_loot_chest_locations = RareLootChestBlockPosData.get(level).getLocations();
+                                    List<BlockPos> epic_loot_chest_locations = EpicLootChestBlockPosData.get(level).getLocations();
+
 
                                     int detected = 0;
 
-                                    for (BlockPos lootChestPos: locations) {
+                                    for (BlockPos lootChestPos: loot_chest_locations) {
                                         if (level.getBlockEntity(lootChestPos) instanceof LootChestBlockEntity lootChestBlockEntity) {
                                             BlockState state = level.getBlockState(lootChestPos);
 
@@ -60,7 +69,37 @@ public class ModCommands {
                                             detected++;
                                         }
                                     }
-                                    context.getSource().sendSystemMessage(Component.literal("重置数:" + detected));
+                                    context.getSource().sendSystemMessage(Component.literal("custom重置数:" + detected));
+                                    for (BlockPos lootChestPos: common_loot_chest_locations) {
+                                        if (level.getBlockEntity(lootChestPos) instanceof LootChestBlockEntity lootChestBlockEntity) {
+                                            BlockState state = level.getBlockState(lootChestPos);
+
+                                            lootChestBlockEntity.setLootTable(Battleroyale.commonLootChestLootTable, 0);
+                                            level.setBlock(lootChestPos, state.setValue(LootChestBlock.OPEN, false), 3);
+                                            detected++;
+                                        }
+                                    }
+                                    context.getSource().sendSystemMessage(Component.literal("common重置数:" + detected));
+                                    for (BlockPos lootChestPos: rare_loot_chest_locations) {
+                                        if (level.getBlockEntity(lootChestPos) instanceof LootChestBlockEntity lootChestBlockEntity) {
+                                            BlockState state = level.getBlockState(lootChestPos);
+
+                                            lootChestBlockEntity.setLootTable(Battleroyale.rareLootChestLootTable, 0);
+                                            level.setBlock(lootChestPos, state.setValue(LootChestBlock.OPEN, false), 3);
+                                            detected++;
+                                        }
+                                    }
+                                    context.getSource().sendSystemMessage(Component.literal("rare重置数:" + detected));
+                                    for (BlockPos lootChestPos: epic_loot_chest_locations) {
+                                        if (level.getBlockEntity(lootChestPos) instanceof LootChestBlockEntity lootChestBlockEntity) {
+                                            BlockState state = level.getBlockState(lootChestPos);
+
+                                            lootChestBlockEntity.setLootTable(Battleroyale.epicLootChestLootTable, 0);
+                                            level.setBlock(lootChestPos, state.setValue(LootChestBlock.OPEN, false), 3);
+                                            detected++;
+                                        }
+                                    }
+                                    context.getSource().sendSystemMessage(Component.literal("epic重置数:" + detected));
                                     return 1;
                                 })
                         )
@@ -85,20 +124,10 @@ public class ModCommands {
                         )
                 )
 
-                .then(Commands.literal("initialsettings")
+                .then(Commands.literal("test")
                         .executes(context -> {
-
-                            if (BattleroyaleManager.setHobby()){
-                                context.getSource().sendSystemMessage(Component.literal("未检测到hobby"));
-                                return 1;
-                            }
-
-
-                            if (BattleroyaleManager.setPlatform()) {
-                                context.getSource().sendSystemMessage(Component.literal("未检测到platform"));
-                                return 1;
-                            }
-                            context.getSource().sendSystemMessage(Component.literal("初始化成功！"));
+                            ServerLevel level = context.getSource().getLevel();
+                            level.getServer().sendSystemMessage(Component.literal("Nothing Here..."));
                             return 1;
                         }))
         );

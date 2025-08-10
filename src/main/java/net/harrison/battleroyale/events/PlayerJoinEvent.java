@@ -1,15 +1,19 @@
 package net.harrison.battleroyale.events;
 
 import net.harrison.battleroyale.Battleroyale;
-import net.harrison.battleroyale.BattleroyaleManager;
+import net.harrison.battleroyale.data.ServerData;
+import net.harrison.battleroyale.init.ModMessages;
+import net.harrison.battleroyale.networking.s2cpacket.MarkerDataS2CPacket;
+import net.harrison.battleroyalezone.data.ServerMapData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,20 +24,27 @@ public class PlayerJoinEvent {
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
 
-        Player player = event.getEntity();
-        ServerPlayer serverPlayer = (ServerPlayer) event.getEntity();
+        ServerPlayer player = (ServerPlayer) event.getEntity();
 
-        if (BattleroyaleManager.getStatus()){
-            serverPlayer.setGameMode(GameType.SPECTATOR);
+        ServerMapData.get(player.serverLevel()).pushMapData(player);
 
-            serverPlayer.connection.send(new ClientboundSetTitleTextPacket(Component.translatable("message.battleroyale.player_spectator").withStyle(ChatFormatting.AQUA)));
+        ServerData data = ServerData.get((ServerLevel) event.getEntity().level());
+
+        if (GamingEvent.getBattleroyaleManager(event.getEntity().level()) != null){
+            player.setGameMode(GameType.SPECTATOR);
+
+            player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable("message.battleroyale.player_spectator").withStyle(ChatFormatting.AQUA)));
 
             player.playNotifySound(SoundEvents.VILLAGER_TRADE, SoundSource.NEUTRAL, 1.0F, 1.0F);
         } else {
-            if (BattleroyaleManager.getHobby() != null) {
-                player.teleportTo(BattleroyaleManager.getHobby().x, BattleroyaleManager.getHobby().y, BattleroyaleManager.getHobby().z);
+            if (data.getHobbyLocation() != null ) {
+                Vec3 hobby = data.getHobbyLocation().getCenter();
+                player.teleportTo(hobby.x, hobby.y, hobby.z);
                 player.setHealth(player.getMaxHealth());
             }
         }
+
+
+        ModMessages.sendToPlayer(new MarkerDataS2CPacket(data.getPlatformLocations(), data.getHobbyLocation()), player);
     }
 }

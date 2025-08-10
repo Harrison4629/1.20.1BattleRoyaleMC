@@ -1,7 +1,9 @@
 package net.harrison.battleroyale;
 
-import net.harrison.basicdevtool.util.DelayTask;
 import net.harrison.battleroyale.init.ModCommands;
+import net.harrison.battleroyale.init.ModItems;
+import net.harrison.battleroyale.init.ModMessages;
+import net.harrison.battleroyale.manager.TeamManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,9 +25,17 @@ public class Battleroyale {
 
     public static ResourceLocation lootChestLootTable = ResourceLocation.parse("battleroyale:chests");
 
+    public static ResourceLocation commonLootChestLootTable = ResourceLocation.parse("battleroyale:common");
+
+    public static ResourceLocation rareLootChestLootTable = ResourceLocation.parse("battleroyale:rare");
+
+    public static ResourceLocation epicLootChestLootTable = ResourceLocation.parse("battleroyale:epic");
+
     public Battleroyale() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+
+        ModItems.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -36,6 +46,7 @@ public class Battleroyale {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(ModMessages::register);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -43,13 +54,11 @@ public class Battleroyale {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        BattleroyaleManager.getServer(event.getServer());
     }
 
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
-        DelayTask.schedule(BattleroyaleManager::setHobby, 100);
-        DelayTask.schedule(BattleroyaleManager::setPlatform, 100);
+        TeamManager.createTeams(event.getServer());
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

@@ -7,5 +7,6 @@
   "message.battleroyale.game_running": "大逃杀正在运行中！请等待其结束",
   "message.battleroyale.not_enough_player_number": "玩家数量不足！",
   "manager.battleroyale.running": "运行中...",
-  "manager.battleroyale.idle": "空闲..."
+  "manager.battleroyale.idle": "空闲...",
+  "message.battleroyale.earn_score": "%s 击杀敌人获得分数: +1"
 }

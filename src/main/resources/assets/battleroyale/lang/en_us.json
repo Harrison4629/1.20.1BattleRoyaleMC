@@ -7,5 +7,6 @@
   "message.battleroyale.game_running": "",
   "message.battleroyale.not_enough_player_number": "",
   "manager.battleroyale.running": "",
-  "manager.battleroyale.idle": ""
+  "manager.battleroyale.idle": "",
+  "message.battleroyale.earn_score": ""
 }

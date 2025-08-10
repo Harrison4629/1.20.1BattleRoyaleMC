@@ -1,7 +1,6 @@
 package net.harrison.battleroyale.events;
 
 import net.harrison.battleroyale.Battleroyale;
-import net.harrison.battleroyale.BattleroyaleManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -22,7 +21,7 @@ public class ImmuneDamageBeforeStartEvent {
             return;
         }
 
-        if (BattleroyaleManager.getStatus()) {
+        if (GamingEvent.getBattleroyaleManager(event.getEntity().level()) != null) {
             return;
         }
 

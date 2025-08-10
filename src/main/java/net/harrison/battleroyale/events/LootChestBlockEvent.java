@@ -1,7 +1,10 @@
 package net.harrison.battleroyale.events;
 
 import net.harrison.battleroyale.Battleroyale;
-import net.harrison.battleroyale.data.LootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.CommonLootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.EpicLootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.LootChestBlockPosData;
+import net.harrison.battleroyale.data.lootChestData.RareLootChestBlockPosData;
 import net.harrison.battleroyaleitem.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -27,6 +30,33 @@ public class LootChestBlockEvent {
                     player.sendSystemMessage(Component.literal("已添加"));
                 }
             }
+            if (event.getPlacedBlock().is(ModBlocks.COMMON_LOOT_CHEST.get())) {
+                ServerLevel serverLevel = (ServerLevel) event.getLevel();
+                CommonLootChestBlockPosData data = CommonLootChestBlockPosData.get(serverLevel);
+                data.addLocation(event.getPos());
+
+                if (event.getEntity() instanceof Player player) {
+                    player.sendSystemMessage(Component.literal("已添加common"));
+                }
+            }
+            if (event.getPlacedBlock().is(ModBlocks.RARE_LOOT_CHEST.get())) {
+                ServerLevel serverLevel = (ServerLevel) event.getLevel();
+                RareLootChestBlockPosData data = RareLootChestBlockPosData.get(serverLevel);
+                data.addLocation(event.getPos());
+
+                if (event.getEntity() instanceof Player player) {
+                    player.sendSystemMessage(Component.literal("已添加rare"));
+                }
+            }
+            if (event.getPlacedBlock().is(ModBlocks.EPIC_LOOT_CHEST.get())) {
+                ServerLevel serverLevel = (ServerLevel) event.getLevel();
+                EpicLootChestBlockPosData data = EpicLootChestBlockPosData.get(serverLevel);
+                data.addLocation(event.getPos());
+
+                if (event.getEntity() instanceof Player player) {
+                    player.sendSystemMessage(Component.literal("已添加epic"));
+                }
+            }
         }
     }
 
@@ -42,7 +72,24 @@ public class LootChestBlockEvent {
 
                 event.getPlayer().sendSystemMessage(Component.literal("已清除"));
             }
+            if (event.getState().getBlock() == ModBlocks.COMMON_LOOT_CHEST.get()) {
+                CommonLootChestBlockPosData data = CommonLootChestBlockPosData.get(serverLevel);
+                data.removeLocation(pos);
+
+                event.getPlayer().sendSystemMessage(Component.literal("已清除common"));
+            }
+            if (event.getState().getBlock() == ModBlocks.RARE_LOOT_CHEST.get()) {
+                RareLootChestBlockPosData data = RareLootChestBlockPosData.get(serverLevel);
+                data.removeLocation(pos);
+
+                event.getPlayer().sendSystemMessage(Component.literal("已清除rare"));
+            }
+            if (event.getState().getBlock() == ModBlocks.EPIC_LOOT_CHEST.get()) {
+                EpicLootChestBlockPosData data = EpicLootChestBlockPosData.get(serverLevel);
+                data.removeLocation(pos);
+
+                event.getPlayer().sendSystemMessage(Component.literal("已清除epic"));
+            }
         }
     }
-
 }

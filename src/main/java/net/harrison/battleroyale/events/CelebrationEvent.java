@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Battleroyale.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class FireWorkEvent {
+public class CelebrationEvent {
     private static int TimeTicks;
     private static int PlayTimes;
     private static Vec3 Pos;
@@ -41,7 +41,7 @@ public class FireWorkEvent {
                 CompoundTag fireworkTag = fireworkItemStack.getOrCreateTagElement ("Fireworks");
                 fireworkTag.putByte("Flight", (byte) (int)(Math.random() * 4));
                 fireworkTag.put("Explosions", createFancyExplosions() );
-                FireworkRocketEntity firework = new FireworkRocketEntity(level, Pos.x, Pos.y, Pos.z, fireworkItemStack);
+                FireworkRocketEntity firework = new FireworkRocketEntity(level, Pos.x + (Math.random() - 0.5) * 6, Pos.y, Pos.z + (Math.random() - 0.5) * 6, fireworkItemStack);
 
                 firework.setDeltaMovement(Math.random() - 0.5, Math.random() + 1, Math.random() - 0.5);
 
@@ -98,6 +98,6 @@ public class FireWorkEvent {
     public static void setPlayTimesAndPos(int count, Vec3 pos, Level level) {
         PlayTimes = count;
         Pos = pos.add(0F, 2F, 0F);
-        FireWorkEvent.level = level;
+        CelebrationEvent.level = level;
     }
 }

@@ -98,10 +98,6 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-
-    implementation fg.deobf("curse.maven:dummmmmmy-225738:6608233")
-    implementation fg.deobf("curse.maven:moonlight-499980:6693288")
-
     //implementation fg.deobf("curse.maven:gliders-828331:6517195")
 
     implementation fg.deobf("curse.maven:tacz-1028108:6654541")
